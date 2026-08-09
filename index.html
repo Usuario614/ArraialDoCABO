@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enseada Azul — Passeios de Barco em Arraial do Cabo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+:root{
+  --ink:#0E2A2E;
+  --deep:#0B3B40;
+  --deep2:#0F4A50;
+  --turquoise:#2FADA0;
+  --turquoise-light:#CFEFE9;
+  --sand:#ECE1C6;
+  --sand-light:#F5EFDD;
+  --ochre:#C98A3E;
+  --ochre-dark:#8F5F26;
+  --red:#B5423A;
+  --paper:#FBF8F0;
+  --font-display:'Fraunces', serif;
+  --font-body:'Inter', sans-serif;
+  --font-mono:'IBM Plex Mono', monospace;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{font-family:var(--font-body); color:var(--ink); background:var(--paper); line-height:1.55; -webkit-font-smoothing:antialiased;}
+img{max-width:100%; display:block;}
+a{color:inherit;}
+.wrap{max-width:1040px; margin:0 auto; padding:0 24px;}
+.eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; opacity:.75;}
+
+/* ---------- HERO ---------- */
+.hero{background:linear-gradient(180deg,var(--deep) 0%, var(--deep2) 100%); color:var(--sand-light); position:relative; overflow:hidden; padding:20px 0 0;}
+.hero-nav{display:flex; align-items:center; justify-content:space-between; padding:18px 0;}
+.brand{font-family:var(--font-display); font-weight:700; font-size:20px; letter-spacing:.01em;}
+.qr-chip{display:flex; align-items:center; gap:8px; font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.22); border-radius:100px; padding:6px 12px;}
+.hero-body{padding:56px 0 40px; position:relative; z-index:2;}
+.hero h1{font-family:var(--font-display); font-weight:600; font-size:clamp(38px,7vw,64px); line-height:1.02; max-width:640px; letter-spacing:-.01em;}
+.hero h1 em{font-style:italic; color:var(--turquoise);}
+.hero p.lede{margin-top:18px; max-width:440px; font-size:17px; color:rgba(245,239,221,.82);}
+.hero-cta{margin-top:30px; display:flex; gap:14px; flex-wrap:wrap;}
+.btn{font-family:var(--font-body); font-weight:600; font-size:14px; border-radius:100px; padding:13px 24px; border:1px solid transparent; cursor:pointer; transition:transform .15s ease, background .15s ease;}
+.btn:active{transform:scale(.97);}
+.btn-primary{background:var(--ochre); color:#2B1B08;}
+.btn-primary:hover{background:#D89A4C;}
+.btn-ghost{background:transparent; border-color:rgba(245,239,221,.4); color:var(--sand-light);}
+.btn-ghost:hover{border-color:rgba(245,239,221,.8);}
+.wave-row{display:flex; align-items:flex-end; height:120px; margin-top:20px;}
+.wave-row svg{width:100%; height:100%; display:block;}
+
+/* ---------- SECTIONS ---------- */
+section{padding:64px 0;}
+.section-head{max-width:560px; margin-bottom:36px;}
+.section-head h2{font-family:var(--font-display); font-weight:600; font-size:clamp(28px,4vw,38px); letter-spacing:-.01em; margin-top:8px;}
+.section-head p{margin-top:12px; color:#3C4A4C; font-size:15.5px;}
+
+/* about */
+.about{background:var(--sand-light);}
+.about-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:48px; align-items:start;}
+.about p{color:#33403F; font-size:15.5px; margin-bottom:14px;}
+.quotes{display:flex; flex-direction:column; gap:16px;}
+.quote-card{background:var(--paper); border:1px solid #E2D6B0; border-radius:14px; padding:18px 20px; position:relative;}
+.quote-card p{font-family:var(--font-display); font-style:italic; font-size:16.5px; color:var(--ink); margin:0 0 10px;}
+.quote-meta{font-family:var(--font-mono); font-size:11.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--ochre-dark);}
+
+/* excursions */
+.tour-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
+.tour-card{background:var(--paper); border:1px solid #E5DAB8; border-radius:18px; overflow:hidden; display:flex; flex-direction:column;}
+.tour-banner{height:130px; position:relative;}
+.tour-banner svg{width:100%; height:100%; display:block;}
+.tour-badge{position:absolute; top:12px; left:12px; background:var(--red); color:#FCE9E7; font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; padding:4px 10px; border-radius:100px;}
+.tour-body{padding:18px 20px 20px; display:flex; flex-direction:column; gap:10px; flex:1;}
+.tour-body h3{font-family:var(--font-display); font-weight:600; font-size:20px;}
+.tour-body .desc{font-size:13.8px; color:#3E4B4A;}
+.tour-list{list-style:none; font-size:13px; color:#3E4B4A; display:flex; flex-direction:column; gap:5px;}
+.tour-list li{padding-left:16px; position:relative;}
+.tour-list li::before{content:'~'; position:absolute; left:0; color:var(--turquoise); font-weight:700;}
+.ticket-row{margin-top:auto; display:flex; align-items:center; justify-content:space-between; padding-top:14px; border-top:1px dashed #C9BC90;}
+.price{font-family:var(--font-mono); font-size:20px; font-weight:500; color:var(--deep);}
+.price span{font-size:11px; color:#7A7364; display:block; font-weight:400;}
+.btn-reserve{background:var(--deep); color:var(--sand-light); font-size:13px; padding:10px 18px; border-radius:100px; font-weight:600; cursor:pointer; border:none;}
+.btn-reserve:hover{background:var(--deep2);}
+
+/* map */
+.map-section{background:var(--deep); color:var(--sand-light);}
+.map-section .eyebrow{color:var(--turquoise);}
+.map-section h2{color:var(--sand-light);}
+.map-section p{color:rgba(245,239,221,.78);}
+.map-panel{margin-top:28px; border-radius:18px; overflow:hidden; border:1px solid rgba(245,239,221,.18); position:relative;}
+#map{height:380px; width:100%;}
+.map-legend{display:flex; gap:18px; flex-wrap:wrap; margin-top:16px; font-size:12.5px; color:rgba(245,239,221,.78);}
+.map-legend span{display:inline-flex; align-items:center; gap:7px;}
+.dot{width:9px; height:9px; border-radius:50%; display:inline-block;}
+
+/* footer */
+footer{background:var(--ink); color:rgba(245,239,221,.6); padding:36px 0; font-size:13px;}
+footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;}
+
+/* ---------- MODAL / TICKET FLOW ---------- */
+.overlay{position:fixed; inset:0; background:rgba(11,29,31,.55); display:none; align-items:center; justify-content:center; padding:20px; z-index:50;}
+.overlay.open{display:flex;}
+.modal{background:var(--paper); width:100%; max-width:420px; border-radius:20px; overflow:hidden; max-height:90vh; display:flex; flex-direction:column;}
+.modal-head{background:var(--deep); color:var(--sand-light); padding:20px 24px; display:flex; justify-content:space-between; align-items:flex-start;}
+.modal-head h3{font-family:var(--font-display); font-size:19px; font-weight:600;}
+.modal-head p{font-size:12.5px; color:rgba(245,239,221,.7); margin-top:3px;}
+.modal-close{background:none; border:none; color:rgba(245,239,221,.85); font-size:20px; cursor:pointer; line-height:1;}
+.modal-body{padding:22px 24px; overflow-y:auto;}
+.step-label{font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--ochre-dark); margin-bottom:12px;}
+.stepper-row{display:flex; align-items:center; justify-content:space-between; background:var(--sand-light); border:1px solid #E2D6B0; border-radius:14px; padding:14px 18px; margin-bottom:20px;}
+.stepper-row .lbl{font-size:14px; font-weight:600;}
+.stepper-row .lbl small{display:block; font-weight:400; font-size:12px; color:#6A6357;}
+.stepper-ctrl{display:flex; align-items:center; gap:14px;}
+.step-btn{width:32px; height:32px; border-radius:50%; border:1px solid var(--deep); background:var(--paper); color:var(--deep); font-size:16px; cursor:pointer; line-height:1;}
+.step-btn:hover{background:var(--deep); color:var(--sand-light);}
+.pax-count{font-family:var(--font-mono); font-size:17px; min-width:20px; text-align:center;}
+.pay-options{display:flex; flex-direction:column; gap:10px; margin-bottom:20px;}
+.pay-opt{display:flex; align-items:center; gap:12px; border:1px solid #E2D6B0; border-radius:14px; padding:14px 16px; cursor:pointer;}
+.pay-opt.active{border-color:var(--deep); background:var(--turquoise-light);}
+.pay-opt input{accent-color:var(--deep);}
+.pay-opt .t{font-weight:600; font-size:14px;}
+.pay-opt .s{font-size:12px; color:#6A6357;}
+.total-row{display:flex; justify-content:space-between; align-items:baseline; font-family:var(--font-mono); padding-top:14px; border-top:1px dashed #C9BC90; margin-bottom:20px;}
+.total-row .n{font-size:24px; color:var(--deep);}
+.pix-box{text-align:center; background:var(--sand-light); border:1px solid #E2D6B0; border-radius:16px; padding:20px; margin-bottom:18px;}
+.pix-box #qrcode{display:flex; justify-content:center; margin:14px 0;}
+.pix-box .code{font-family:var(--font-mono); font-size:11px; word-break:break-all; background:var(--paper); border:1px solid #E2D6B0; border-radius:8px; padding:10px; color:#4B5654;}
+.full-btn{width:100%; padding:14px; border-radius:100px; border:none; font-weight:600; font-size:14px; cursor:pointer;}
+.full-btn.primary{background:var(--ochre); color:#2B1B08;}
+.full-btn.secondary{background:transparent; border:1px solid var(--deep); color:var(--deep); margin-top:10px;}
+.ticket{background:var(--deep); color:var(--sand-light); border-radius:16px; padding:0; overflow:hidden;}
+.ticket-top{padding:22px 24px 16px;}
+.ticket-top .eyebrow{color:var(--turquoise);}
+.ticket-top h4{font-family:var(--font-display); font-size:22px; margin-top:6px;}
+.ticket-rows{display:flex; flex-direction:column; gap:8px; margin-top:16px; font-size:13px;}
+.ticket-rows div{display:flex; justify-content:space-between; color:rgba(245,239,221,.85);}
+.perf{position:relative; height:1px; border-top:1px dashed rgba(245,239,221,.35); margin:6px 0;}
+.ticket-qr{background:var(--sand-light); padding:22px 24px; display:flex; flex-direction:column; align-items:center; gap:10px;}
+.ticket-qr .lbl{font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--ochre-dark);}
+
+@media(max-width:760px){
+  .about-grid{grid-template-columns:1fr;}
+  .tour-grid{grid-template-columns:1fr;}
+  .hero-nav{flex-wrap:wrap; gap:10px;}
+}
+@media(prefers-reduced-motion:reduce){ *{transition:none !important;} }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap hero-nav">
+    <div class="brand">Enseada Azul</div>
+    <div class="qr-chip"><span>&#9673;</span> Página acessada via QR no píer</div>
+  </div>
+  <div class="wrap hero-body">
+    <p class="eyebrow" style="color:var(--turquoise)">Passeios de barco · Arraial do Cabo</p>
+    <h1>As águas mais claras do <em>Caribe brasileiro,</em> vistas de dentro do barco.</h1>
+    <p class="lede">Saímos da Praia dos Pescadores todas as manhãs. Você escolhe o passeio, reserva na hora e paga como preferir — dinheiro no embarque ou Pix pelo QR.</p>
+    <div class="hero-cta">
+      <button class="btn btn-primary" onclick="document.getElementById('passeios').scrollIntoView({behavior:'smooth'})">Ver passeios</button>
+      <button class="btn btn-ghost" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">Ver ponto de saída</button>
+    </div>
+  </div>
+  <div class="wrap wave-row">
+    <svg viewBox="0 0 1000 90" preserveAspectRatio="none">
+      <path d="M0,40 C120,80 220,10 340,40 C460,70 560,10 680,35 C800,60 900,15 1000,45 L1000,90 L0,90 Z" fill="#F5EFDD" opacity="1"></path>
+      <path d="M0,55 C130,25 240,85 360,55 C480,25 580,80 700,55 C820,30 920,75 1000,55 L1000,90 L0,90 Z" fill="#F5EFDD" opacity="0.55"></path>
+    </svg>
+  </div>
+</div>
+
+<section class="about">
+  <div class="wrap about-grid">
+    <div>
+      <p class="eyebrow" style="color:var(--ochre-dark)">Quem somos</p>
+      <h2 style="font-family:var(--font-display); font-size:30px; margin:8px 0 16px;">Uma família de pescadores que virou tripulação de turismo</h2>
+      <p>Há 14 anos saímos da mesma enseada, primeiro atrás de peixe, hoje mostrando pra quem visita por que essa água é diferente de qualquer outra do litoral.</p>
+      <p>Conhecemos cada gruta, cada banco de areia que aparece na maré baixa e o horário exato em que o sol bate na Prainha do Pontal do jeito que ninguém vê nas fotos.</p>
+      <p>Cada passeio sai com no máximo 12 pessoas, colete salva-vidas pra todo mundo e um marinheiro contando a história do lugar — não só dirigindo o barco.</p>
+    </div>
+    <div class="quotes">
+      <div class="quote-card">
+        <p>&ldquo;Achei que já tinha visto água azul. Aí vi a Gruta Azul de dentro do barco.&rdquo;</p>
+        <div class="quote-meta">Renata, São Paulo — Passeio Gruta Azul</div>
+      </div>
+      <div class="quote-card">
+        <p>&ldquo;O capitão parou o barco só pra gente ver os botos passando. Isso não tava no roteiro.&rdquo;</p>
+        <div class="quote-meta">Diego, Buenos Aires — Volta à Ilha</div>
+      </div>
+      <div class="quote-card">
+        <p>&ldquo;Reservei escaneando o QR na praia e paguei por Pix ali mesmo. Rapidíssimo.&rdquo;</p>
+        <div class="quote-meta">Marina, Belo Horizonte — Pôr do Sol</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="passeios">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow" style="color:var(--ochre-dark)">Os passeios</p>
+      <h2>Escolha sua saída, reserve e mostre o ticket no embarque</h2>
+      <p>Todos saem da Praia dos Pescadores. Coletes, guia e paradas para banho estão incluídos no preço.</p>
+    </div>
+    <div class="tour-grid" id="tourGrid"></div>
+  </div>
+</section>
+
+<section class="map-section" id="mapa">
+  <div class="wrap">
+    <p class="eyebrow">Onde embarcar</p>
+    <h2>Ponto de saída e rota de cada passeio</h2>
+    <p>Todos os barcos partem do mesmo píer. Toque em uma rota no mapa pra ver por onde ela passa.</p>
+    <div class="map-panel"><div id="map"></div></div>
+    <div class="map-legend" id="mapLegend"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>Enseada Azul — Praia dos Pescadores, Arraial do Cabo, RJ</span>
+    <span>Reservas por WhatsApp (22) 99999-0000</span>
+  </div>
+</footer>
+
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h3 id="mTitle">Reservar passeio</h3>
+        <p id="mSub">Praia dos Pescadores · saída 9h</p>
+      </div>
+      <button class="modal-close" id="mClose" aria-label="Fechar">&times;</button>
+    </div>
+    <div class="modal-body" id="mBody"></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+const TOURS = [
+  {
+    id:'ilha',
+    name:'Volta à Ilha do Farol',
+    badge:'Mais pedido',
+    desc:'Contorno completo pela Ilha do Farol, com parada para mergulho livre em água cristalina.',
+    highlights:['Mergulho livre em 2 paradas','Botos na maioria das saídas','Duração: 3h30'],
+    price:180,
+    accent:'#2FADA0',
+    route:[[-22.9670,-42.0263],[-22.9820,-42.0195],[-22.9975,-42.0170],[-22.9910,-42.0300]],
+    stop:'Ilha do Farol'
+  },
+  {
+    id:'gruta',
+    name:'Gruta Azul e Prainhas',
+    badge:'Água mais clara',
+    desc:'Passeio mais tranquilo, focado na luz que entra na Gruta Azul e nas prainhas escondidas do Atalaia.',
+    highlights:['Entrada na Gruta Azul','Parada na Prainha do Pontal','Duração: 2h30'],
+    price:150,
+    accent:'#C98A3E',
+    route:[[-22.9670,-42.0263],[-22.9910,-42.0300],[-23.0050,-42.0125]],
+    stop:'Gruta Azul'
+  },
+  {
+    id:'sunset',
+    name:'Pôr do sol em Boi de Cabo',
+    badge:'Fim de tarde',
+    desc:'Saída mais curta, sem paradas de mergulho, pensada pra ver o sol descer sobre as pedras de Boi de Cabo.',
+    highlights:['Bebida de boas-vindas','Sem pressa, ritmo contemplativo','Duração: 1h30'],
+    price:120,
+    accent:'#B5423A',
+    route:[[-22.9670,-42.0263],[-22.9740,-42.0350],[-22.9800,-42.0410]],
+    stop:'Boi de Cabo'
+  }
+];
+
+function bannerSVG(accent){
+  return `<svg viewBox="0 0 400 130" preserveAspectRatio="none">
+    <rect width="400" height="130" fill="${accent}"></rect>
+    <path d="M0,90 C60,60 120,110 180,85 C240,60 300,105 400,80 L400,130 L0,130 Z" fill="rgba(255,255,255,0.18)"></path>
+    <path d="M0,105 C80,80 160,120 240,100 C300,85 360,115 400,100 L400,130 L0,130 Z" fill="rgba(255,255,255,0.28)"></path>
+    <circle cx="335" cy="30" r="16" fill="rgba(255,255,255,0.35)"></circle>
+  </svg>`;
+}
+
+const grid = document.getElementById('tourGrid');
+TOURS.forEach(t=>{
+  const card = document.createElement('div');
+  card.className='tour-card';
+  card.innerHTML = `
+    <div class="tour-banner">${bannerSVG(t.accent)}<span class="tour-badge">${t.badge}</span></div>
+    <div class="tour-body">
+      <h3>${t.name}</h3>
+      <p class="desc">${t.desc}</p>
+      <ul class="tour-list">${t.highlights.map(h=>`<li>${h}</li>`).join('')}</ul>
+      <div class="ticket-row">
+        <div class="price">R$ ${t.price}<span>por pessoa</span></div>
+        <button class="btn-reserve" data-id="${t.id}">Reservar</button>
+      </div>
+    </div>`;
+  grid.appendChild(card);
+});
+
+const map = L.map('map', {scrollWheelZoom:false}).setView([-22.984,-42.024], 13);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'&copy; OpenStreetMap'}).addTo(map);
+const pierIcon = L.divIcon({className:'', html:'<div style="width:14px;height:14px;border-radius:50%;background:#F5EFDD;border:2px solid #0B3B40;"></div>', iconSize:[14,14]});
+L.marker([-22.9670,-42.0263], {icon:pierIcon}).addTo(map).bindPopup('<b>Praia dos Pescadores</b><br>Ponto de saída de todos os passeios');
+
+const legend = document.getElementById('mapLegend');
+TOURS.forEach(t=>{
+  L.polyline(t.route, {color:t.accent, weight:4, opacity:.85}).addTo(map).bindPopup(`<b>${t.name}</b><br>Até ${t.stop}`);
+  const endIcon = L.divIcon({className:'', html:`<div style="width:12px;height:12px;border-radius:50%;background:${t.accent};border:2px solid white;"></div>`, iconSize:[12,12]});
+  L.marker(t.route[t.route.length-1], {icon:endIcon}).addTo(map).bindPopup(`<b>${t.stop}</b><br>${t.name}`);
+  const item = document.createElement('span');
+  item.innerHTML = `<span class="dot" style="background:${t.accent}"></span>${t.name}`;
+  legend.appendChild(item);
+});
+
+function crc16(str){
+  let crc = 0xFFFF;
+  for(let i=0;i<str.length;i++){
+    crc ^= str.charCodeAt(i) << 8;
+    for(let j=0;j<8;j++){
+      crc = (crc & 0x8000) ? ((crc<<1) ^ 0x1021) : (crc<<1);
+      crc &= 0xFFFF;
+    }
+  }
+  return crc.toString(16).toUpperCase().padStart(4,'0');
+}
+function tlv(id, value){
+  const len = value.length.toString().padStart(2,'0');
+  return `${id}${len}${value}`;
+}
+function buildPixPayload({key, name, city, amount, txid}){
+  const merchantAccount = tlv('00','BR.GOV.BCB.PIX') + tlv('01', key);
+  let payload =
+    tlv('00','01') +
+    tlv('26', merchantAccount) +
+    tlv('52','0000') +
+    tlv('53','986') +
+    tlv('54', amount.toFixed(2)) +
+    tlv('58','BR') +
+    tlv('59', name.substring(0,25)) +
+    tlv('60', city.substring(0,15)) +
+    tlv('62', tlv('05', txid.substring(0,25)));
+  payload += '6304';
+  return payload + crc16(payload);
+}
+
+let state = {tour:null, pax:1, method:'cash', step:1};
+const overlay = document.getElementById('overlay');
+const mBody = document.getElementById('mBody');
+const mTitle = document.getElementById('mTitle');
+const mSub = document.getElementById('mSub');
+
+document.getElementById('mClose').addEventListener('click', closeModal);
+overlay.addEventListener('click', e=>{ if(e.target===overlay) closeModal(); });
+function closeModal(){ overlay.classList.remove('open'); state = {tour:null, pax:1, method:'cash', step:1}; }
+
+document.querySelectorAll('.btn-reserve').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const tour = TOURS.find(t=>t.id===btn.dataset.id);
+    state = {tour, pax:1, method:'cash', step:1};
+    mTitle.textContent = tour.name;
+    mSub.textContent = 'Praia dos Pescadores · saída 9h';
+    overlay.classList.add('open');
+    renderStep();
+  });
+});
+
+function renderStep(){
+  const t = state.tour;
+  const total = t.price * state.pax;
+  if(state.step===1){
+    mBody.innerHTML = `
+      <p class="step-label">Passo 1 de 3 · Passageiros</p>
+      <div class="stepper-row">
+        <div class="lbl">Quantidade<small>Crianças até 5 anos não pagam</small></div>
+        <div class="stepper-ctrl">
+          <button class="step-btn" id="dec">-</button>
+          <span class="pax-count" id="paxOut">${state.pax}</span>
+          <button class="step-btn" id="inc">+</button>
+        </div>
+      </div>
+      <div class="total-row"><span>Total estimado</span><span class="n">R$ ${(t.price*state.pax).toFixed(2)}</span></div>
+      <button class="full-btn primary" id="next1">Continuar</button>`;
+    document.getElementById('dec').onclick=()=>{ if(state.pax>1){state.pax--; renderStep();} };
+    document.getElementById('inc').onclick=()=>{ if(state.pax<12){state.pax++; renderStep();} };
+    document.getElementById('next1').onclick=()=>{ state.step=2; renderStep(); };
+  } else if(state.step===2){
+    mBody.innerHTML = `
+      <p class="step-label">Passo 2 de 3 · Pagamento</p>
+      <div class="pay-options">
+        <label class="pay-opt ${state.method==='cash'?'active':''}" id="optCash">
+          <input type="radio" name="pay" ${state.method==='cash'?'checked':''}>
+          <div><div class="t">Dinheiro no embarque</div><div class="s">Pague direto com o marinheiro na hora da saída</div></div>
+        </label>
+        <label class="pay-opt ${state.method==='pix'?'active':''}" id="optPix">
+          <input type="radio" name="pay" ${state.method==='pix'?'checked':''}>
+          <div><div class="t">Pix</div><div class="s">Escaneie o QR e pague agora, sem precisar de troco</div></div>
+        </label>
+      </div>
+      <div class="total-row"><span>${state.pax} pessoa(s)</span><span class="n">R$ ${total.toFixed(2)}</span></div>
+      <button class="full-btn primary" id="next2">Continuar</button>
+      <button class="full-btn secondary" id="back2">Voltar</button>`;
+    document.getElementById('optCash').onclick=()=>{ state.method='cash'; renderStep(); };
+    document.getElementById('optPix').onclick=()=>{ state.method='pix'; renderStep(); };
+    document.getElementById('next2').onclick=()=>{ state.step=3; renderStep(); };
+    document.getElementById('back2').onclick=()=>{ state.step=1; renderStep(); };
+  } else if(state.step===3){
+    const txid = `EA${t.id.toUpperCase()}${Date.now().toString().slice(-8)}`;
+    let pixBlock = '';
+    if(state.method==='pix'){
+      const payload = buildPixPayload({key:'contato@enseadaazul.com.br', name:'Enseada Azul Passeios', city:'ARRAIAL DO CABO', amount:total, txid});
+      pixBlock = `
+        <div class="pix-box">
+          <p class="step-label" style="margin-bottom:2px;">Escaneie para pagar via Pix</p>
+          <div id="qrcode"></div>
+          <div class="code">${payload}</div>
+        </div>`;
+    }
+    mBody.innerHTML = `
+      <p class="step-label">Passo 3 de 3 · Confirmação</p>
+      ${pixBlock}
+      <div class="ticket">
+        <div class="ticket-top">
+          <p class="eyebrow">Ticket de embarque</p>
+          <h4>${t.name}</h4>
+          <div class="ticket-rows">
+            <div><span>Passageiros</span><span>${state.pax}</span></div>
+            <div><span>Pagamento</span><span>${state.method==='pix' ? 'Pix' : 'Dinheiro no embarque'}</span></div>
+            <div><span>Total</span><span>R$ ${total.toFixed(2)}</span></div>
+            <div><span>Código</span><span>${txid}</span></div>
+          </div>
+        </div>
+        <div class="perf"></div>
+        <div class="ticket-qr">
+          <span class="lbl">Mostre este QR ao embarcar</span>
+          <div id="boardingQr"></div>
+        </div>
+      </div>
+      <button class="full-btn secondary" id="closeFinal" style="margin-top:16px;">Fechar</button>`;
+    if(state.method==='pix'){
+      const payload = buildPixPayload({key:'contato@enseadaazul.com.br', name:'Enseada Azul Passeios', city:'ARRAIAL DO CABO', amount:total, txid});
+      new QRCode(document.getElementById('qrcode'), {text:payload, width:160, height:160, colorDark:'#0E2A2E', colorLight:'#F5EFDD'});
+    }
+    new QRCode(document.getElementById('boardingQr'), {text:`ENSEADA-AZUL|${txid}|${t.id}|pax:${state.pax}`, width:130, height:130, colorDark:'#0E2A2E', colorLight:'#F5EFDD'});
+    document.getElementById('closeFinal').onclick = closeModal;
+  }
+}
+</script>
+</body>
+</html>
