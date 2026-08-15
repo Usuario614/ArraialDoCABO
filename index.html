@@ -20,6 +20,9 @@
   --ochre:#C98A3E;
   --ochre-dark:#8F5F26;
   --red:#B5423A;
+  --rose:#B5697A;
+  --rose-dark:#7D3F52;
+  --dawn-light:#F3E3DE;
   --paper:#FBF8F0;
   --font-display:'Fraunces', serif;
   --font-body:'Inter', sans-serif;
@@ -27,7 +30,7 @@
 }
 *{box-sizing:border-box; margin:0; padding:0;}
 body{font-family:var(--font-body); color:var(--ink); background:var(--paper); line-height:1.55; -webkit-font-smoothing:antialiased;}
-img{max-width:100%; display:block;}
+img{max-width:100%; display:block; overflow:hidden; font-size:0; color:transparent; background:var(--sand);}
 a{color:inherit;}
 .wrap{max-width:1040px; margin:0 auto; padding:0 24px;}
 .eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; opacity:.75;}
@@ -44,12 +47,26 @@ a{color:inherit;}
 .hero-cta{margin-top:30px; display:flex; gap:14px; flex-wrap:wrap;}
 .btn{font-family:var(--font-body); font-weight:600; font-size:14px; border-radius:100px; padding:13px 24px; border:1px solid transparent; cursor:pointer; transition:transform .15s ease, background .15s ease;}
 .btn:active{transform:scale(.97);}
-.btn-primary{background:var(--ochre); color:#2B1B08;}
+.btn-primary{background:var(--ochre); color:#2B1B08; animation:cta-pulse 1.8s ease-out .8s 1;}
 .btn-primary:hover{background:#D89A4C;}
+@keyframes cta-pulse{
+  0%{box-shadow:0 0 0 0 rgba(201,138,62,.55);}
+  70%{box-shadow:0 0 0 14px rgba(201,138,62,0);}
+  100%{box-shadow:0 0 0 0 rgba(201,138,62,0);}
+}
 .btn-ghost{background:transparent; border-color:rgba(245,239,221,.4); color:var(--sand-light);}
 .btn-ghost:hover{border-color:rgba(245,239,221,.8);}
 .wave-row{display:flex; align-items:flex-end; height:120px; margin-top:20px;}
 .wave-row svg{width:100%; height:100%; display:block;}
+
+/* trust bar */
+.trust-bar{background:var(--sand); border-bottom:1px solid #E2D6B0;}
+.trust-bar-inner{display:flex; align-items:center; justify-content:center; gap:28px; padding:16px 24px; flex-wrap:wrap;}
+.trust-item{display:flex; align-items:baseline; gap:7px;}
+.trust-num{font-family:var(--font-mono); font-weight:600; font-size:17px; color:var(--deep2);}
+.trust-lbl{font-size:12.5px; color:#4B5654;}
+.trust-sep{width:1px; height:16px; background:#C9BC90;}
+@media(max-width:600px){ .trust-sep{display:none;} .trust-bar-inner{gap:10px 20px;} }
 
 /* ---------- SECTIONS ---------- */
 section{padding:64px 0;}
@@ -82,8 +99,11 @@ section{padding:64px 0;}
 .ticket-row{margin-top:auto; display:flex; align-items:center; justify-content:space-between; padding-top:14px; border-top:1px dashed #C9BC90;}
 .price{font-family:var(--font-mono); font-size:20px; font-weight:500; color:var(--deep);}
 .price span{font-size:11px; color:#7A7364; display:block; font-weight:400;}
-.btn-reserve{background:var(--deep); color:var(--sand-light); font-size:13px; padding:10px 18px; border-radius:100px; font-weight:600; cursor:pointer; border:none;}
-.btn-reserve:hover{background:var(--deep2);}
+.btn-reserve{background:var(--ochre); color:#2B1B08; font-size:13px; padding:11px 20px; border-radius:100px; font-weight:700; cursor:pointer; border:none; transition:transform .15s ease, background .15s ease;}
+.btn-reserve:hover{background:#D89A4C; transform:translateY(-1px);}
+.btn-reserve:active{transform:scale(.97);}
+.value-note{font-size:11.5px; color:#5C7A72; display:flex; align-items:center; gap:5px; margin-top:-2px;}
+.value-note::before{content:'✓'; color:var(--turquoise); font-weight:700;}
 
 /* map */
 .map-section{background:var(--deep); color:var(--sand-light);}
@@ -95,6 +115,32 @@ section{padding:64px 0;}
 .map-legend{display:flex; gap:18px; flex-wrap:wrap; margin-top:16px; font-size:12.5px; color:rgba(245,239,221,.78);}
 .map-legend span{display:inline-flex; align-items:center; gap:7px;}
 .dot{width:9px; height:9px; border-radius:50%; display:inline-block;}
+
+/* yoga */
+.yoga{background:var(--dawn-light);}
+.yoga .eyebrow{color:var(--rose-dark);}
+.yoga-photos{display:grid; grid-template-columns:1fr 1fr; gap:3px; border-radius:18px; overflow:hidden; margin-top:28px; box-shadow:0 12px 32px -12px rgba(125,63,82,.35);}
+.yoga-photos img{width:100%; height:280px; object-fit:cover; display:block;}
+.yoga-instructors{margin-top:18px; font-family:var(--font-mono); font-size:12.5px; letter-spacing:.04em; color:var(--rose-dark);}
+.yoga-instructors b{color:var(--ink); font-family:var(--font-body); font-weight:600;}
+.class-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:22px; margin-top:32px;}
+.class-card{background:var(--paper); border:1px solid #E2C7C4; border-radius:18px; padding:26px 24px; display:flex; flex-direction:column; gap:12px;}
+.class-card .class-tag{display:inline-flex; align-self:flex-start; font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--rose-dark); background:var(--dawn-light); border:1px solid #E2C7C4; padding:4px 11px; border-radius:100px;}
+.class-card h3{font-family:var(--font-display); font-weight:600; font-size:22px; margin-top:2px;}
+.class-card .desc{font-size:14px; color:#3E4B4A;}
+.class-meta{list-style:none; font-size:13px; color:#3E4B4A; display:flex; flex-direction:column; gap:6px; margin-top:4px;}
+.class-meta li{padding-left:16px; position:relative;}
+.class-meta li::before{content:'~'; position:absolute; left:0; color:var(--rose); font-weight:700;}
+.class-prices{margin-top:auto; padding-top:16px; border-top:1px dashed #D8BFBB; display:flex; flex-direction:column; gap:10px;}
+.class-price-row{display:flex; align-items:center; justify-content:space-between; gap:12px;}
+.class-price-row .price{font-family:var(--font-mono); font-size:18px; font-weight:500; color:var(--rose-dark);}
+.class-price-row .price span{font-size:11px; color:#7A6360; display:block; font-weight:400;}
+.btn-whatsapp{background:var(--rose-dark); color:var(--sand-light); font-size:12.5px; padding:9px 16px; border-radius:100px; font-weight:600; cursor:pointer; border:none; white-space:nowrap; text-decoration:none; display:inline-block;}
+.btn-whatsapp:hover{background:var(--rose);}
+@media(max-width:760px){
+  .class-grid{grid-template-columns:1fr;}
+  .yoga-photos{grid-template-columns:1fr;}
+}
 
 /* footer */
 footer{background:var(--ink); color:rgba(245,239,221,.6); padding:36px 0; font-size:13px;}
@@ -141,12 +187,22 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
 .ticket-qr{background:var(--sand-light); padding:22px 24px; display:flex; flex-direction:column; align-items:center; gap:10px;}
 .ticket-qr .lbl{font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--ochre-dark);}
 
+/* sticky mobile CTA */
+.sticky-cta{display:none;}
 @media(max-width:760px){
   .about-grid{grid-template-columns:1fr;}
   .tour-grid{grid-template-columns:1fr;}
   .hero-nav{flex-wrap:wrap; gap:10px;}
+  .sticky-cta{
+    display:flex; position:fixed; left:0; right:0; bottom:0; z-index:40;
+    background:var(--paper); border-top:1px solid #E2D6B0; padding:10px 16px;
+    padding-bottom:calc(10px + env(safe-area-inset-bottom));
+    box-shadow:0 -8px 24px -8px rgba(11,29,31,.18);
+  }
+  .sticky-cta button{width:100%; padding:13px; border-radius:100px; border:none; background:var(--ochre); color:#2B1B08; font-weight:700; font-size:14.5px; cursor:pointer;}
+  body{padding-bottom:64px;}
 }
-@media(prefers-reduced-motion:reduce){ *{transition:none !important;} }
+@media(prefers-reduced-motion:reduce){ *{transition:none !important; animation:none !important;} }
 </style>
 </head>
 <body>
@@ -159,10 +215,11 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
   <div class="wrap hero-body">
     <p class="eyebrow" style="color:var(--turquoise)">Passeios de barco · Arraial do Cabo</p>
     <h1>As águas mais claras do <em>Caribe brasileiro,</em> vistas de dentro do barco.</h1>
-    <p class="lede">Saímos da Praia dos Pescadores todas as manhãs. Você escolhe o passeio, reserva na hora e paga como preferir — dinheiro no embarque ou Pix pelo QR.</p>
+    <p class="lede">Saímos da Praia dos Anjos todas as manhãs. Você escolhe o passeio, reserva na hora e paga como preferir — dinheiro no embarque ou Pix pelo QR.</p>
     <div class="hero-cta">
       <button class="btn btn-primary" onclick="document.getElementById('passeios').scrollIntoView({behavior:'smooth'})">Ver passeios</button>
       <button class="btn btn-ghost" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">Ver ponto de saída</button>
+      <button class="btn btn-ghost" onclick="document.getElementById('yoga').scrollIntoView({behavior:'smooth'})">Ver aulas de yoga</button>
     </div>
   </div>
   <div class="wrap wave-row">
@@ -170,6 +227,16 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
       <path d="M0,40 C120,80 220,10 340,40 C460,70 560,10 680,35 C800,60 900,15 1000,45 L1000,90 L0,90 Z" fill="#F5EFDD" opacity="1"></path>
       <path d="M0,55 C130,25 240,85 360,55 C480,25 580,80 700,55 C820,30 920,75 1000,55 L1000,90 L0,90 Z" fill="#F5EFDD" opacity="0.55"></path>
     </svg>
+  </div>
+</div>
+
+<div class="trust-bar">
+  <div class="wrap trust-bar-inner">
+    <div class="trust-item"><span class="trust-num">14</span><span class="trust-lbl">anos no mar</span></div>
+    <div class="trust-sep"></div>
+    <div class="trust-item"><span class="trust-num">&le;12</span><span class="trust-lbl">pessoas por saída</span></div>
+    <div class="trust-sep"></div>
+    <div class="trust-item"><span class="trust-num">100%</span><span class="trust-lbl">pague na hora, sem cartão</span></div>
   </div>
 </div>
 
@@ -204,9 +271,64 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
     <div class="section-head">
       <p class="eyebrow" style="color:var(--ochre-dark)">Os passeios</p>
       <h2>Escolha sua saída, reserve e mostre o ticket no embarque</h2>
-      <p>Todos saem da Praia dos Pescadores. Coletes, guia e paradas para banho estão incluídos no preço.</p>
+      <p>Todos saem da Praia dos Anjos. Coletes, guia e paradas para banho estão incluídos no preço.</p>
     </div>
     <div class="tour-grid" id="tourGrid"></div>
+  </div>
+</section>
+
+<section class="yoga" id="yoga">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Yoga na Praia Grande</p>
+      <h2>Hatha Yoga e Acro Yoga ao nascer e ao pôr do sol</h2>
+      <p>Turmas pequenas na areia da Praia Grande, com o horário mais bonito do dia como pano de fundo.</p>
+    </div>
+    <div class="yoga-photos">
+      <img src="images/praia-grande-1.jpg" alt="Praia Grande ao entardecer, Arraial do Cabo" loading="lazy">
+      <img src="images/praia-grande-2.jpg" alt="Praia Grande ao pôr do sol, Arraial do Cabo" loading="lazy">
+    </div>
+    <p class="yoga-instructors">Turmas com <b>Benjamin</b> e <b>Sol</b> · Praia Grande, Arraial do Cabo</p>
+
+    <div class="class-grid">
+      <div class="class-card">
+        <span class="class-tag">Hatha Yoga</span>
+        <h3>Hatha Yoga na areia</h3>
+        <p class="desc">Prática tranquila e guiada, pensada pra sentir o corpo acordar com o sol ou desacelerar quando ele se põe.</p>
+        <ul class="class-meta">
+          <li>Duração: 60 minutos</li>
+          <li>Ao amanhecer ou ao entardecer</li>
+          <li>Tapete próprio ou avise que precisa de um</li>
+        </ul>
+        <div class="class-prices">
+          <div class="class-price-row">
+            <div class="price">R$ 100<span>por pessoa</span></div>
+            <a class="btn-whatsapp" href="https://wa.me/5522999990000?text=Ol%C3%A1!%20Quero%20reservar%20uma%20aula%20de%20Hatha%20Yoga%20na%20Praia%20Grande." target="_blank" rel="noopener">Reservar</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="class-card">
+        <span class="class-tag">Acro Yoga</span>
+        <h3>Acro Yoga em dupla</h3>
+        <p class="desc">Base, voo e confiança — em dupla ou sozinho, com apoio constante de quem ensina, na frente do mar.</p>
+        <ul class="class-meta">
+          <li>Duração: 60 minutos</li>
+          <li>Ao amanhecer ou ao entardecer</li>
+          <li>Não precisa de experiência prévia</li>
+        </ul>
+        <div class="class-prices">
+          <div class="class-price-row">
+            <div class="price">R$ 120<span>por pessoa</span></div>
+            <a class="btn-whatsapp" href="https://wa.me/5522999990000?text=Ol%C3%A1!%20Quero%20reservar%20uma%20aula%20de%20Acro%20Yoga%20individual%20na%20Praia%20Grande." target="_blank" rel="noopener">Reservar</a>
+          </div>
+          <div class="class-price-row">
+            <div class="price">R$ 200<span>por casal</span></div>
+            <a class="btn-whatsapp" href="https://wa.me/5522999990000?text=Ol%C3%A1!%20Quero%20reservar%20uma%20aula%20de%20Acro%20Yoga%20em%20casal%20na%20Praia%20Grande." target="_blank" rel="noopener">Reservar</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -222,17 +344,21 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
 
 <footer>
   <div class="wrap">
-    <span>Enseada Azul — Praia dos Pescadores, Arraial do Cabo, RJ</span>
+    <span>Enseada Azul — Praia dos Anjos, Arraial do Cabo, RJ</span>
     <span>Reservas por WhatsApp (22) 99999-0000</span>
   </div>
 </footer>
+
+<div class="sticky-cta">
+  <button onclick="document.getElementById('passeios').scrollIntoView({behavior:'smooth'})">Ver passeios e reservar</button>
+</div>
 
 <div class="overlay" id="overlay">
   <div class="modal">
     <div class="modal-head">
       <div>
         <h3 id="mTitle">Reservar passeio</h3>
-        <p id="mSub">Praia dos Pescadores · saída 9h</p>
+        <p id="mSub">Praia dos Anjos · saída 9h</p>
       </div>
       <button class="modal-close" id="mClose" aria-label="Fechar">&times;</button>
     </div>
@@ -249,10 +375,10 @@ const TOURS = [
     name:'Volta à Ilha do Farol',
     badge:'Mais pedido',
     desc:'Contorno completo pela Ilha do Farol, com parada para mergulho livre em água cristalina.',
-    highlights:['Mergulho livre em 2 paradas','Botos na maioria das saídas','Duração: 3h30'],
+    highlights:['Mergulho livre em 2 paradas','Botos na maioria das saídas','Duração: 3h30','Grupo pequeno: até 12 pessoas'],
     price:180,
     accent:'#2FADA0',
-    route:[[-22.9670,-42.0263],[-22.9820,-42.0195],[-22.9975,-42.0170],[-22.9910,-42.0300]],
+    route:[[-22.965665,-42.020642],[-22.9820,-42.0195],[-22.9975,-42.0170],[-22.9910,-42.0300]],
     stop:'Ilha do Farol',
     photos:[
       'https://images.unsplash.com/photo-1604878434237-322af3bff809?auto=format&fit=crop&w=900&q=80',
@@ -265,10 +391,10 @@ const TOURS = [
     name:'Gruta Azul e Prainhas',
     badge:'Água mais clara',
     desc:'Passeio mais tranquilo, focado na luz que entra na Gruta Azul e nas prainhas escondidas do Atalaia.',
-    highlights:['Entrada na Gruta Azul','Parada na Prainha do Pontal','Duração: 2h30'],
+    highlights:['Entrada na Gruta Azul','Parada na Prainha do Pontal','Duração: 2h30','Grupo pequeno: até 12 pessoas'],
     price:150,
     accent:'#C98A3E',
-    route:[[-22.9670,-42.0263],[-22.9910,-42.0300],[-23.0050,-42.0125]],
+    route:[[-22.965665,-42.020642],[-22.9910,-42.0300],[-23.0050,-42.0125]],
     stop:'Gruta Azul',
     photos:[
       'https://images.unsplash.com/photo-1701525865079-363fb990060c?auto=format&fit=crop&w=900&q=80',
@@ -281,10 +407,10 @@ const TOURS = [
     name:'Pôr do sol em Boi de Cabo',
     badge:'Fim de tarde',
     desc:'Saída mais curta, sem paradas de mergulho, pensada pra ver o sol descer sobre as pedras de Boi de Cabo.',
-    highlights:['Bebida de boas-vindas','Sem pressa, ritmo contemplativo','Duração: 1h30'],
+    highlights:['Bebida de boas-vindas','Sem pressa, ritmo contemplativo','Duração: 1h30','Grupo pequeno: até 12 pessoas'],
     price:120,
     accent:'#B5423A',
-    route:[[-22.9670,-42.0263],[-22.9740,-42.0350],[-22.9800,-42.0410]],
+    route:[[-22.965665,-42.020642],[-22.9740,-42.0350],[-22.9800,-42.0410]],
     stop:'Boi de Cabo',
     photos:[
       'https://images.unsplash.com/photo-1701525865290-e5a6e6aef1d4?auto=format&fit=crop&w=900&q=80',
@@ -310,6 +436,7 @@ TOURS.forEach(t=>{
       <h3>${t.name}</h3>
       <p class="desc">${t.desc}</p>
       <ul class="tour-list">${t.highlights.map(h=>`<li>${h}</li>`).join('')}</ul>
+      <p class="value-note">Colete, guia e paradas já incluídos</p>
       <div class="ticket-row">
         <div class="price">R$ ${t.price}<span>por pessoa</span></div>
         <button class="btn-reserve" data-id="${t.id}">Reservar</button>
@@ -318,20 +445,36 @@ TOURS.forEach(t=>{
   grid.appendChild(card);
 });
 
-const map = L.map('map', {scrollWheelZoom:false}).setView([-22.984,-42.024], 13);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'&copy; OpenStreetMap'}).addTo(map);
-const pierIcon = L.divIcon({className:'', html:'<div style="width:14px;height:14px;border-radius:50%;background:#F5EFDD;border:2px solid #0B3B40;"></div>', iconSize:[14,14]});
-L.marker([-22.9670,-42.0263], {icon:pierIcon}).addTo(map).bindPopup('<b>Praia dos Pescadores</b><br>Ponto de saída de todos os passeios');
+try{
+  const map = L.map('map', {scrollWheelZoom:false}).setView([-22.984,-42.024], 13);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'&copy; OpenStreetMap'}).addTo(map);
+  const pierIcon = L.divIcon({className:'', html:'<div style="width:14px;height:14px;border-radius:50%;background:#F5EFDD;border:2px solid #0B3B40;"></div>', iconSize:[14,14]});
+  L.marker([-22.965665,-42.020642], {icon:pierIcon}).addTo(map).bindPopup('<b>Praia dos Anjos</b><br>Ponto de saída de todos os passeios');
 
-const legend = document.getElementById('mapLegend');
-TOURS.forEach(t=>{
-  L.polyline(t.route, {color:t.accent, weight:4, opacity:.85}).addTo(map).bindPopup(`<b>${t.name}</b><br>Até ${t.stop}`);
-  const endIcon = L.divIcon({className:'', html:`<div style="width:12px;height:12px;border-radius:50%;background:${t.accent};border:2px solid white;"></div>`, iconSize:[12,12]});
-  L.marker(t.route[t.route.length-1], {icon:endIcon}).addTo(map).bindPopup(`<b>${t.stop}</b><br>${t.name}`);
-  const item = document.createElement('span');
-  item.innerHTML = `<span class="dot" style="background:${t.accent}"></span>${t.name}`;
-  legend.appendChild(item);
-});
+  const legend = document.getElementById('mapLegend');
+  const anjosItem = document.createElement('span');
+  anjosItem.innerHTML = `<span class="dot" style="background:#F5EFDD;border:1px solid #0B3B40;"></span>Praia dos Anjos — embarque`;
+  legend.appendChild(anjosItem);
+
+  TOURS.forEach(t=>{
+    L.polyline(t.route, {color:t.accent, weight:4, opacity:.85}).addTo(map).bindPopup(`<b>${t.name}</b><br>Até ${t.stop}`);
+    const endIcon = L.divIcon({className:'', html:`<div style="width:12px;height:12px;border-radius:50%;background:${t.accent};border:2px solid white;"></div>`, iconSize:[12,12]});
+    L.marker(t.route[t.route.length-1], {icon:endIcon}).addTo(map).bindPopup(`<b>${t.stop}</b><br>${t.name}`);
+    const item = document.createElement('span');
+    item.innerHTML = `<span class="dot" style="background:${t.accent}"></span>${t.name}`;
+    legend.appendChild(item);
+  });
+
+  const yogaIcon = L.divIcon({className:'', html:'<div style="width:14px;height:14px;border-radius:50%;background:#B5697A;border:2px solid white;"></div>', iconSize:[14,14]});
+  L.marker([-22.976560,-42.029926], {icon:yogaIcon}).addTo(map).bindPopup('<b>Praia Grande</b><br>Aulas de Hatha Yoga e Acro Yoga · ao amanhecer e ao entardecer');
+  const yogaItem = document.createElement('span');
+  yogaItem.innerHTML = `<span class="dot" style="background:#B5697A"></span>Praia Grande — aulas de yoga`;
+  legend.appendChild(yogaItem);
+}catch(err){
+  console.error('Mapa não carregou:', err);
+  const panel = document.querySelector('.map-panel');
+  if(panel) panel.innerHTML = '<div style="padding:32px 24px; text-align:center; color:rgba(245,239,221,.75); font-size:14px;">O mapa não carregou agora, mas os passeios saem todos da Praia dos Anjos.<br>Você pode reservar normalmente acima.</div>';
+}
 
 function crc16(str){
   let crc = 0xFFFF;
@@ -379,7 +522,7 @@ document.querySelectorAll('.btn-reserve').forEach(btn=>{
     const tour = TOURS.find(t=>t.id===btn.dataset.id);
     state = {tour, pax:1, method:'cash', step:1};
     mTitle.textContent = tour.name;
-    mSub.textContent = 'Praia dos Pescadores · saída 9h';
+    mSub.textContent = 'Praia dos Anjos · saída 9h';
     overlay.classList.add('open');
     renderStep();
   });
@@ -459,9 +602,17 @@ function renderStep(){
       <button class="full-btn secondary" id="closeFinal" style="margin-top:16px;">Fechar</button>`;
     if(state.method==='pix'){
       const payload = buildPixPayload({key:'contato@enseadaazul.com.br', name:'Enseada Azul Passeios', city:'ARRAIAL DO CABO', amount:total, txid});
-      new QRCode(document.getElementById('qrcode'), {text:payload, width:160, height:160, colorDark:'#0E2A2E', colorLight:'#F5EFDD'});
+      try{
+        new QRCode(document.getElementById('qrcode'), {text:payload, width:160, height:160, colorDark:'#0E2A2E', colorLight:'#F5EFDD'});
+      }catch(err){
+        document.getElementById('qrcode').innerHTML = '<p style="font-size:12px; color:#6A6357;">QR indisponível agora — use o código Pix copia-e-cola abaixo.</p>';
+      }
     }
-    new QRCode(document.getElementById('boardingQr'), {text:`ENSEADA-AZUL|${txid}|${t.id}|pax:${state.pax}`, width:130, height:130, colorDark:'#0E2A2E', colorLight:'#F5EFDD'});
+    try{
+      new QRCode(document.getElementById('boardingQr'), {text:`ENSEADA-AZUL|${txid}|${t.id}|pax:${state.pax}`, width:130, height:130, colorDark:'#0E2A2E', colorLight:'#F5EFDD'});
+    }catch(err){
+      document.getElementById('boardingQr').innerHTML = `<p style="font-size:12px; color:#6A6357; text-align:center;">Mostre este código ao marinheiro:<br><b style="font-family:var(--font-mono); font-size:13px;">${txid}</b></p>`;
+    }
     document.getElementById('closeFinal').onclick = closeModal;
   }
 }
