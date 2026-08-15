@@ -9,7 +9,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
 <link rel="preload" as="image" href="https://images.unsplash.com/photo-1521495611528-1d6a473a3da1?auto=format&fit=crop&w=1200&q=70">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=optional" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=optional">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=optional" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=optional" rel="stylesheet"></noscript>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"></noscript>
 <style>
@@ -42,7 +44,7 @@ a{color:inherit;}
 /* ---------- HERO ---------- */
 .hero{background:linear-gradient(180deg, rgba(11,59,64,.82) 0%, rgba(15,74,80,.90) 100%), url('https://images.unsplash.com/photo-1521495611528-1d6a473a3da1?auto=format&fit=crop&w=1200&q=70') center 60%/cover no-repeat; color:var(--sand-light); position:relative; overflow:hidden; padding:20px 0 0;}
 @media(max-width:760px){
-  .hero{background-image:linear-gradient(180deg, rgba(11,59,64,.82) 0%, rgba(15,74,80,.90) 100%), url('https://images.unsplash.com/photo-1521495611528-1d6a473a3da1?auto=format&fit=crop&w=800&q=65');}
+  .hero{background-image:linear-gradient(180deg, rgba(11,59,64,.82) 0%, rgba(15,74,80,.90) 100%), url('https://images.unsplash.com/photo-1521495611528-1d6a473a3da1?auto=format&fit=crop&w=760&q=55');}
 }
 .hero-nav{display:flex; align-items:center; justify-content:space-between; padding:18px 0;}
 .brand{font-family:var(--font-display); font-weight:700; font-size:20px; letter-spacing:.01em;}
@@ -402,8 +404,8 @@ const TOURS = [
     stop:'Ilha do Farol',
     photos:[
       'https://images.unsplash.com/photo-1604878434237-322af3bff809?auto=format&fit=crop&w=480&q=68',
-      'https://images.unsplash.com/photo-1585261561077-88d368ca7e46?auto=format&fit=crop&w=300&q=65',
-      'https://images.unsplash.com/photo-1706870614086-dffe36511316?auto=format&fit=crop&w=300&q=65'
+      'https://images.unsplash.com/photo-1585261561077-88d368ca7e46?auto=format&fit=crop&w=220&q=62',
+      'https://images.unsplash.com/photo-1706870614086-dffe36511316?auto=format&fit=crop&w=220&q=62'
     ]
   },
   {
@@ -418,8 +420,8 @@ const TOURS = [
     stop:'Gruta Azul',
     photos:[
       'https://images.unsplash.com/photo-1701525865079-363fb990060c?auto=format&fit=crop&w=480&q=68',
-      'https://images.unsplash.com/photo-1701204290309-fdc6f4106384?auto=format&fit=crop&w=300&q=65',
-      'https://images.unsplash.com/photo-1707081563197-65cda8336c67?auto=format&fit=crop&w=300&q=65'
+      'https://images.unsplash.com/photo-1701204290309-fdc6f4106384?auto=format&fit=crop&w=220&q=62',
+      'https://images.unsplash.com/photo-1707081563197-65cda8336c67?auto=format&fit=crop&w=220&q=62'
     ]
   },
   {
@@ -434,8 +436,8 @@ const TOURS = [
     stop:'Boi de Cabo',
     photos:[
       'https://images.unsplash.com/photo-1701525865290-e5a6e6aef1d4?auto=format&fit=crop&w=480&q=68',
-      'https://images.unsplash.com/photo-1701525864822-d2785d7cd9b9?auto=format&fit=crop&w=300&q=65',
-      'https://images.unsplash.com/photo-1701006385669-f5a5c7a64707?auto=format&fit=crop&w=300&q=65'
+      'https://images.unsplash.com/photo-1701525864822-d2785d7cd9b9?auto=format&fit=crop&w=220&q=62',
+      'https://images.unsplash.com/photo-1701006385669-f5a5c7a64707?auto=format&fit=crop&w=220&q=62'
     ]
   }
 ];
