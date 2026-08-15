@@ -4,10 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Enseada Azul — Passeios de Barco em Arraial do Cabo</title>
+<meta name="description" content="Passeios de barco em Arraial do Cabo saindo da Praia dos Anjos: Gruta Azul, Ilha do Farol e pôr do sol. Grupos pequenos, reserva na hora, pague em dinheiro ou Pix.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+<link rel="preload" as="image" href="https://images.unsplash.com/photo-1521495611528-1d6a473a3da1?auto=format&fit=crop&w=1200&q=70">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=optional" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"></noscript>
 <style>
 :root{
   --ink:#0E2A2E;
@@ -36,7 +40,10 @@ a{color:inherit;}
 .eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; opacity:.75;}
 
 /* ---------- HERO ---------- */
-.hero{background:linear-gradient(180deg, rgba(11,59,64,.82) 0%, rgba(15,74,80,.90) 100%), url('https://images.unsplash.com/photo-1521495611528-1d6a473a3da1?auto=format&fit=crop&w=1600&q=80') center 60%/cover no-repeat; color:var(--sand-light); position:relative; overflow:hidden; padding:20px 0 0;}
+.hero{background:linear-gradient(180deg, rgba(11,59,64,.82) 0%, rgba(15,74,80,.90) 100%), url('https://images.unsplash.com/photo-1521495611528-1d6a473a3da1?auto=format&fit=crop&w=1200&q=70') center 60%/cover no-repeat; color:var(--sand-light); position:relative; overflow:hidden; padding:20px 0 0;}
+@media(max-width:760px){
+  .hero{background-image:linear-gradient(180deg, rgba(11,59,64,.82) 0%, rgba(15,74,80,.90) 100%), url('https://images.unsplash.com/photo-1521495611528-1d6a473a3da1?auto=format&fit=crop&w=800&q=65');}
+}
 .hero-nav{display:flex; align-items:center; justify-content:space-between; padding:18px 0;}
 .brand{font-family:var(--font-display); font-weight:700; font-size:20px; letter-spacing:.01em;}
 .qr-chip{display:flex; align-items:center; gap:8px; font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.22); border-radius:100px; padding:6px 12px;}
@@ -381,9 +388,9 @@ const TOURS = [
     route:[[-22.965665,-42.020642],[-22.9820,-42.0195],[-22.9975,-42.0170],[-22.9910,-42.0300]],
     stop:'Ilha do Farol',
     photos:[
-      'https://images.unsplash.com/photo-1604878434237-322af3bff809?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1585261561077-88d368ca7e46?auto=format&fit=crop&w=500&q=80',
-      'https://images.unsplash.com/photo-1706870614086-dffe36511316?auto=format&fit=crop&w=500&q=80'
+      'https://images.unsplash.com/photo-1604878434237-322af3bff809?auto=format&fit=crop&w=480&q=68',
+      'https://images.unsplash.com/photo-1585261561077-88d368ca7e46?auto=format&fit=crop&w=300&q=65',
+      'https://images.unsplash.com/photo-1706870614086-dffe36511316?auto=format&fit=crop&w=300&q=65'
     ]
   },
   {
@@ -397,9 +404,9 @@ const TOURS = [
     route:[[-22.965665,-42.020642],[-22.9910,-42.0300],[-23.0050,-42.0125]],
     stop:'Gruta Azul',
     photos:[
-      'https://images.unsplash.com/photo-1701525865079-363fb990060c?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1701204290309-fdc6f4106384?auto=format&fit=crop&w=500&q=80',
-      'https://images.unsplash.com/photo-1707081563197-65cda8336c67?auto=format&fit=crop&w=500&q=80'
+      'https://images.unsplash.com/photo-1701525865079-363fb990060c?auto=format&fit=crop&w=480&q=68',
+      'https://images.unsplash.com/photo-1701204290309-fdc6f4106384?auto=format&fit=crop&w=300&q=65',
+      'https://images.unsplash.com/photo-1707081563197-65cda8336c67?auto=format&fit=crop&w=300&q=65'
     ]
   },
   {
@@ -413,9 +420,9 @@ const TOURS = [
     route:[[-22.965665,-42.020642],[-22.9740,-42.0350],[-22.9800,-42.0410]],
     stop:'Boi de Cabo',
     photos:[
-      'https://images.unsplash.com/photo-1701525865290-e5a6e6aef1d4?auto=format&fit=crop&w=900&q=80',
-      'https://images.unsplash.com/photo-1701525864822-d2785d7cd9b9?auto=format&fit=crop&w=500&q=80',
-      'https://images.unsplash.com/photo-1701006385669-f5a5c7a64707?auto=format&fit=crop&w=500&q=80'
+      'https://images.unsplash.com/photo-1701525865290-e5a6e6aef1d4?auto=format&fit=crop&w=480&q=68',
+      'https://images.unsplash.com/photo-1701525864822-d2785d7cd9b9?auto=format&fit=crop&w=300&q=65',
+      'https://images.unsplash.com/photo-1701006385669-f5a5c7a64707?auto=format&fit=crop&w=300&q=65'
     ]
   }
 ];
