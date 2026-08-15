@@ -54,12 +54,13 @@ a{color:inherit;}
 .hero-cta{margin-top:30px; display:flex; gap:14px; flex-wrap:wrap;}
 .btn{font-family:var(--font-body); font-weight:600; font-size:14px; border-radius:100px; padding:13px 24px; border:1px solid transparent; cursor:pointer; transition:transform .15s ease, background .15s ease;}
 .btn:active{transform:scale(.97);}
-.btn-primary{background:var(--ochre); color:#2B1B08; animation:cta-pulse 1.8s ease-out .8s 1;}
+.btn-primary{background:var(--ochre); color:#2B1B08; position:relative;}
 .btn-primary:hover{background:#D89A4C;}
+.btn-primary::after{content:''; position:absolute; inset:0; border-radius:inherit; border:1px solid rgba(201,138,62,.55); opacity:0; animation:cta-pulse 1.8s ease-out .8s 1;}
 @keyframes cta-pulse{
-  0%{box-shadow:0 0 0 0 rgba(201,138,62,.55);}
-  70%{box-shadow:0 0 0 14px rgba(201,138,62,0);}
-  100%{box-shadow:0 0 0 0 rgba(201,138,62,0);}
+  0%{transform:scale(1); opacity:.9;}
+  70%{transform:scale(1.35); opacity:0;}
+  100%{transform:scale(1.35); opacity:0;}
 }
 .btn-ghost{background:transparent; border-color:rgba(245,239,221,.4); color:var(--sand-light);}
 .btn-ghost:hover{border-color:rgba(245,239,221,.8);}
@@ -214,6 +215,7 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
 </head>
 <body>
 
+<main>
 <div class="hero">
   <div class="wrap hero-nav">
     <div class="brand">Enseada Azul</div>
@@ -348,6 +350,7 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
     <div class="map-legend" id="mapLegend"></div>
   </div>
 </section>
+</main>
 
 <footer>
   <div class="wrap">
@@ -373,8 +376,18 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
   </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+function loadScript(src){
+  return new Promise((resolve, reject)=>{
+    if(document.querySelector(`script[src="${src}"]`)) return resolve();
+    const s = document.createElement('script');
+    s.src = src; s.onload = resolve; s.onerror = reject;
+    document.body.appendChild(s);
+  });
+}
+const LEAFLET_JS = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
+const QRCODE_JS = 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
+</script>
 <script>
 const TOURS = [
   {
@@ -452,6 +465,7 @@ TOURS.forEach(t=>{
   grid.appendChild(card);
 });
 
+function initMap(){
 try{
   const map = L.map('map', {scrollWheelZoom:false}).setView([-22.984,-42.024], 13);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'&copy; OpenStreetMap'}).addTo(map);
@@ -481,6 +495,22 @@ try{
   console.error('Mapa não carregou:', err);
   const panel = document.querySelector('.map-panel');
   if(panel) panel.innerHTML = '<div style="padding:32px 24px; text-align:center; color:rgba(245,239,221,.75); font-size:14px;">O mapa não carregou agora, mas os passeios saem todos da Praia dos Anjos.<br>Você pode reservar normalmente acima.</div>';
+}
+}
+
+const mapSection = document.getElementById('mapa');
+if('IntersectionObserver' in window && mapSection){
+  const mapObserver = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        mapObserver.unobserve(mapSection);
+        loadScript(LEAFLET_JS).then(initMap).catch(()=>console.error('No se pudo cargar Leaflet'));
+      }
+    });
+  }, {rootMargin:'200px'});
+  mapObserver.observe(mapSection);
+} else {
+  loadScript(LEAFLET_JS).then(initMap);
 }
 
 function crc16(str){
@@ -607,19 +637,23 @@ function renderStep(){
         </div>
       </div>
       <button class="full-btn secondary" id="closeFinal" style="margin-top:16px;">Fechar</button>`;
-    if(state.method==='pix'){
-      const payload = buildPixPayload({key:'contato@enseadaazul.com.br', name:'Enseada Azul Passeios', city:'ARRAIAL DO CABO', amount:total, txid});
-      try{
-        new QRCode(document.getElementById('qrcode'), {text:payload, width:160, height:160, colorDark:'#0E2A2E', colorLight:'#F5EFDD'});
-      }catch(err){
-        document.getElementById('qrcode').innerHTML = '<p style="font-size:12px; color:#6A6357;">QR indisponível agora — use o código Pix copia-e-cola abaixo.</p>';
+    loadScript(QRCODE_JS).then(()=>{
+      if(state.method==='pix'){
+        const payload = buildPixPayload({key:'contato@enseadaazul.com.br', name:'Enseada Azul Passeios', city:'ARRAIAL DO CABO', amount:total, txid});
+        try{
+          new QRCode(document.getElementById('qrcode'), {text:payload, width:160, height:160, colorDark:'#0E2A2E', colorLight:'#F5EFDD'});
+        }catch(err){
+          document.getElementById('qrcode').innerHTML = '<p style="font-size:12px; color:#6A6357;">QR indisponível agora — use o código Pix copia-e-cola abaixo.</p>';
+        }
       }
-    }
-    try{
-      new QRCode(document.getElementById('boardingQr'), {text:`ENSEADA-AZUL|${txid}|${t.id}|pax:${state.pax}`, width:130, height:130, colorDark:'#0E2A2E', colorLight:'#F5EFDD'});
-    }catch(err){
+      try{
+        new QRCode(document.getElementById('boardingQr'), {text:`ENSEADA-AZUL|${txid}|${t.id}|pax:${state.pax}`, width:130, height:130, colorDark:'#0E2A2E', colorLight:'#F5EFDD'});
+      }catch(err){
+        document.getElementById('boardingQr').innerHTML = `<p style="font-size:12px; color:#6A6357; text-align:center;">Mostre este código ao marinheiro:<br><b style="font-family:var(--font-mono); font-size:13px;">${txid}</b></p>`;
+      }
+    }).catch(()=>{
       document.getElementById('boardingQr').innerHTML = `<p style="font-size:12px; color:#6A6357; text-align:center;">Mostre este código ao marinheiro:<br><b style="font-family:var(--font-mono); font-size:13px;">${txid}</b></p>`;
-    }
+    });
     document.getElementById('closeFinal').onclick = closeModal;
   }
 }
